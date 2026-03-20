@@ -1,0 +1,21 @@
+<svg width="680" height="220" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Cloud mark -->
+  <circle cx="112" cy="88"  r="52" fill="#7F77DD"/>
+  <circle cx="66"  cy="120" r="36" fill="#7F77DD"/>
+  <circle cx="158" cy="120" r="36" fill="#7F77DD"/>
+  <rect   x="30"   y="120"  width="164" height="46" rx="23" fill="#7F77DD"/>
+
+  <!-- Teal connection dot -->
+  <circle cx="112" cy="157" r="8"   fill="#1D9E75"/>
+  <circle cx="112" cy="157" r="3.5" fill="#7F77DD"/>
+
+  <!-- Wordmark -->
+  <text x="214" y="101"
+        dominant-baseline="central"
+        font-family="system-ui, sans-serif"
+        font-size="72"
+        font-weight="500"
+        fill="#3C3489">ollacloud</text>
+
+</svg>

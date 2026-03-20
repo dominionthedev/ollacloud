@@ -1,6 +1,12 @@
+[![ollacloud](./assets/ollacloud-logo.svg)](https://github.com/dominionthedev/ollacloud)
+
 # ollacloud
 
 **Ollama-compatible cloud proxy.** Use your Ollama Cloud subscription without downloading Ollama or any models locally.
+
+
+![How ollacloud works](./assets/ollacloud-illustration.svg)
+
 
 `ollacloud` runs a fully wire-compatible Ollama HTTP server on `localhost:11434`. Any app, script, or tool already built for Ollama — Open WebUI, Cursor, Cline, Continue, custom scripts — works with zero changes.
 
@@ -22,6 +28,8 @@
 ```sh
 # 1. Set your API key (get one at https://ollama.com/settings/keys)
 export OLLAMA_API_KEY=your_key_here
+# or
+ollacloud auth
 
 # 2. Start the daemon (binds to localhost:11434)
 ollacloud serve
@@ -154,3 +162,12 @@ make build
 
 Requires Go 1.22+.
 
+---
+
+#### Ollacloud - Made with love by [DominionDev](https://github.com/dominionthedev)
+
+<p align="left">
+  <a href="https://github.com/dominionthedev">
+    <img src="https://raw.githubusercontent.com/dominionthedev/dominionthedev/main/assets/watermark.svg">
+  </a>
+</p>

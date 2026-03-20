@@ -1,0 +1,62 @@
+<svg width="680" height="295" viewBox="0 0 680 295" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Terminal Window -->
+  <rect x="30" y="56" width="148" height="152" rx="12" fill="#2C2C2A" stroke="#5F5E5A" stroke-width="0.5"/>
+  <path d="M42 56 Q30 56 30 68 L30 82 L178 82 L178 68 Q178 56 166 56 Z" fill="#3D3D3A"/>
+  <circle cx="50" cy="69" r="5" fill="#E24B4A"/>
+  <circle cx="64" cy="69" r="5" fill="#EF9F27"/>
+  <circle cx="78" cy="69" r="5" fill="#639922"/>
+  <rect x="44" y="96"  width="88"  height="7" rx="3.5" fill="#5F5E5A"/>
+  <rect x="44" y="111" width="110" height="7" rx="3.5" fill="#AFA9EC"/>
+  <rect x="44" y="126" width="66"  height="7" rx="3.5" fill="#5F5E5A"/>
+  <rect x="44" y="141" width="100" height="7" rx="3.5" fill="#7F77DD"/>
+  <rect x="44" y="156" width="52"  height="7" rx="3.5" fill="#5F5E5A"/>
+  <rect x="44" y="171" width="80"  height="7" rx="3.5" fill="#AFA9EC"/>
+  <rect x="44" y="186" width="62"  height="7" rx="3.5" fill="#5F5E5A"/>
+
+  <!-- ollacloud Proxy Cloud -->
+  <circle cx="340" cy="112" r="52" fill="#7F77DD"/>
+  <circle cx="295" cy="143" r="37" fill="#7F77DD"/>
+  <circle cx="385" cy="143" r="37" fill="#7F77DD"/>
+  <rect x="258" y="143" width="164" height="48" rx="24" fill="#7F77DD"/>
+  <circle cx="340" cy="182" r="7"  fill="#1D9E75"/>
+  <circle cx="340" cy="182" r="3"  fill="#7F77DD"/>
+  <text x="340" y="163" text-anchor="middle" dominant-baseline="central"
+        font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="#EEEDFE">:11434</text>
+
+  <!-- Ollama Cloud Server Rack -->
+  <rect x="508" y="56" width="152" height="152" rx="12" fill="#04342C" stroke="#1D9E75" stroke-width="0.5"/>
+  <rect x="520" y="72"  width="128" height="24" rx="5" fill="#0F6E56"/>
+  <rect x="520" y="102" width="128" height="24" rx="5" fill="#0F6E56"/>
+  <rect x="520" y="132" width="128" height="24" rx="5" fill="#0F6E56"/>
+  <rect x="520" y="162" width="128" height="24" rx="5" fill="#0F6E56"/>
+  <text x="530" y="84"  dominant-baseline="central" font-family="system-ui, sans-serif" font-size="11" fill="#9FE1CB">gemma3</text>
+  <text x="530" y="114" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="11" fill="#9FE1CB">deepseek-v3</text>
+  <text x="530" y="144" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="11" fill="#9FE1CB">qwen3</text>
+  <text x="530" y="174" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="11" fill="#9FE1CB">llama3.3</text>
+  <circle cx="636" cy="84"  r="4" fill="#1D9E75"/>
+  <circle cx="636" cy="114" r="4" fill="#1D9E75"/>
+  <circle cx="636" cy="144" r="4" fill="#1D9E75"/>
+  <circle cx="636" cy="174" r="4" fill="#5DCAA5"/>
+
+  <!-- Arrows -->
+  <line x1="179" y1="140" x2="256" y2="140" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="218" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#888780">Ollama API</text>
+  <text x="218" y="155" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#5F5E5A">no auth</text>
+  <line x1="423" y1="140" x2="506" y2="140" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="465" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#888780">HTTPS auth</text>
+  <text x="465" y="155" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#5F5E5A">Bearer token</text>
+
+  <!-- Labels -->
+  <text x="104" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#3C3489">your apps &amp; tools</text>
+  <text x="104" y="245" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#888780">Open WebUI · Cline · curl…</text>
+  <text x="340" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#3C3489">ollacloud</text>
+  <text x="340" y="245" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#888780">localhost:11434</text>
+  <text x="584" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#085041">Ollama Cloud</text>
+  <text x="584" y="245" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#888780">GPU inference · your models</text>
+</svg>
