@@ -1,0 +1,20 @@
+# Build output
+bin/
+dist/
+
+# Go
+*.exe
+*.test
+*.out
+vendor/
+
+# Editor artifacts
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Config with real keys — never commit
+*.toml
+!*example*.toml
