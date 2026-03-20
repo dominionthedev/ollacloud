@@ -52,6 +52,7 @@ func init() {
 		createCmd(),
 		stopCmd(),
 		authCmd(),
+		configCmd(),
 		versionCmd(),
 	)
 }

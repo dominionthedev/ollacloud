@@ -9,7 +9,7 @@ import (
 
 var rootCmd = &cobra.Command{
     Use:   "ollacloud",
-    Short: "ollacloud - a blazing fast CLI tool",
+    Short: "ollacloud - Alternative for Ollama",
 }
 
 func Execute() {
