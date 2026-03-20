@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
@@ -73,6 +74,13 @@ func TestSaveFile_CreatesDir(t *testing.T) {
 }
 
 func TestSaveFile_FilePermissions(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		// Windows does not enforce Unix file permission bits — NTFS ACLs are used
+		// instead and os.Chmod/OpenFile mode bits have no effect on r/w access.
+		// The 0o600 mode is passed on all platforms but only meaningful on Unix.
+		t.Skip("Unix file permission bits are not enforced on Windows")
+	}
+
 	tmp := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", tmp)
 
