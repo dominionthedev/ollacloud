@@ -1,0 +1,82 @@
+version: 2
+
+project_name: ollacloud
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: .
+    binary: ollacloud
+    ldflags:
+      - -s -w
+      - -X github.com/dominionthedev/ollacloud/internal/server.Version={{.Version}}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+archives:
+  - id: default
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
+      - README.md
+
+checksum:
+  name_template: "checksums.txt"
+  algorithm: sha256
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - Merge pull request
+      - Merge branch
+  groups:
+    - title: "New Features"
+      regexp: "^feat"
+      order: 0
+    - title: "Bug Fixes"
+      regexp: "^fix"
+      order: 1
+    - title: "Other"
+      order: 999
+
+release:
+  github:
+    owner: dominionthedev
+    name: ollacloud
+  name_template: "v{{ .Version }}"
+  draft: false
+  prerelease: auto
+  header: |
+    ## ollacloud {{ .Version }}
+
+    Ollama-compatible cloud proxy — use Ollama Cloud without downloading Ollama.
+
+    ### Install
+
+    **macOS / Linux**
+    ```sh
+    curl -fsSL https://github.com/dominionthedev/ollacloud/releases/download/{{ .Tag }}/ollacloud_{{ .Version }}_{{ .Os }}_{{ .Arch }}.tar.gz | tar xz
+    sudo mv ollacloud /usr/local/bin/
+    ```
+
+    **Windows** — download the `.zip` from the assets below.
