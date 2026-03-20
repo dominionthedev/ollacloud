@@ -28,9 +28,12 @@ builds:
 archives:
   - id: default
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats:
+      - tar.gz
     format_overrides:
       - goos: windows
-        format: zip
+        formats:
+          - zip
     files:
       - LICENSE
       - README.md
@@ -41,7 +44,7 @@ checksum:
 
 changelog:
   sort: asc
-  use: github
+  use: git
   filters:
     exclude:
       - "^docs:"
@@ -75,7 +78,7 @@ release:
 
     **macOS / Linux**
     ```sh
-    curl -fsSL https://github.com/dominionthedev/ollacloud/releases/download/{{ .Tag }}/ollacloud_{{ .Version }}_{{ .Os }}_{{ .Arch }}.tar.gz | tar xz
+    curl -fsSL https://github.com/dominionthedev/ollacloud/releases/download/{{ .Tag }}/ollacloud_{{ .Version }}_linux_amd64.tar.gz | tar xz
     sudo mv ollacloud /usr/local/bin/
     ```
 
