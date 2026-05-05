@@ -3,6 +3,10 @@ package ollacloud
 import (
 	"fmt"
 	"os"
+	"os/exec"
+	"path/filepath"
+	"strconv"
+	"syscall"
 	"text/tabwriter"
 
 	"github.com/spf13/cobra"
@@ -15,6 +19,7 @@ import (
 
 func serveCmd() *cobra.Command {
 	var flagKey string
+	var background bool
 
 	cmd := &cobra.Command{
 		Use:   "serve",
@@ -51,10 +56,14 @@ Run 'ollacloud serve --env' to see current resolved values.`,
 
 			key, err := auth.Resolve(auth.ResolveOptions{
 				FlagValue:   flagKey,
-				AllowPrompt: true,
+				AllowPrompt: !background, // No prompt in background mode
 			}, cfg)
 			if err != nil {
 				return err
+			}
+
+			if background {
+				return startBackground(key)
 			}
 
 			return server.Run(server.Config{
@@ -66,7 +75,71 @@ Run 'ollacloud serve --env' to see current resolved values.`,
 
 	cmd.Flags().StringVarP(&flagKey, "key", "k", "", "Ollama Cloud API key (overrides env and config)")
 	cmd.Flags().Bool("env", false, "Print resolved environment variable values and exit")
+	cmd.Flags().BoolVar(&background, "background", false, "Run the server in the background")
 	return cmd
+}
+
+func startBackground(key string) error {
+	dataDir, err := config.DataDir()
+	if err != nil {
+		return err
+	}
+
+	pidFile := filepath.Join(dataDir, "ollacloud.pid")
+	logFile := filepath.Join(dataDir, "server.log")
+
+	// Check if already running
+	if data, err := os.ReadFile(pidFile); err == nil {
+		pid, _ := strconv.Atoi(string(data))
+		if processExists(pid) {
+			return fmt.Errorf("server already running (PID %d). Use 'ollacloud stop-server' to stop it.", pid)
+		}
+	}
+
+	// Prepare background command
+	// We re-run ourselves without the --background flag
+	args := []string{"serve"}
+	if key != "" {
+		args = append(args, "--key", key)
+	}
+
+	cmd := exec.Command(os.Args[0], args...)
+	// Set environment variables to match current ones
+	cmd.Env = os.Environ()
+
+	// Redirect stdout and stderr to log file
+	logF, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o600)
+	if err != nil {
+		return fmt.Errorf("opening log file: %w", err)
+	}
+	cmd.Stdout = logF
+	cmd.Stderr = logF
+
+	if err := cmd.Start(); err != nil {
+		return fmt.Errorf("starting background process: %w", err)
+	}
+
+	// Write PID file
+	if err := os.WriteFile(pidFile, []byte(strconv.Itoa(cmd.Process.Pid)), 0o600); err != nil {
+		return fmt.Errorf("writing PID file: %w", err)
+	}
+
+	fmt.Printf("✓ ollacloud server started in background (PID %d)\n", cmd.Process.Pid)
+	fmt.Printf("✓ Logs: %s\n", logFile)
+	return nil
+}
+
+func processExists(pid int) bool {
+	if pid <= 0 {
+		return false
+	}
+	process, err := os.FindProcess(pid)
+	if err != nil {
+		return false
+	}
+	// On Unix, FindProcess always succeeds. Need to send signal 0 to check if it's alive.
+	err = process.Signal(syscall.Signal(0))
+	return err == nil
 }
 
 // printEnvTable renders the resolved env var table to stdout.

@@ -20,6 +20,20 @@ func authCmd() *cobra.Command {
 	return cmd
 }
 
+func signinCmd() *cobra.Command {
+	cmd := authSetCmd()
+	cmd.Use = "signin"
+	cmd.Hidden = true
+	return cmd
+}
+
+func signoutCmd() *cobra.Command {
+	cmd := authRemoveCmd()
+	cmd.Use = "signout"
+	cmd.Hidden = true
+	return cmd
+}
+
 func authSetCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "set",
