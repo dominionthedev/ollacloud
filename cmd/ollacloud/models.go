@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/dominionthedev/ollacloud/internal/api"
+	"github.com/dominionthedev/ollacloud/internal/modelfile"
 )
 
 // ── pull ─────────────────────────────────────────────────────────────────────
@@ -51,33 +52,42 @@ func pushCmd() *cobra.Command {
 // ── create ───────────────────────────────────────────────────────────────────
 
 func createCmd() *cobra.Command {
-	var modelfile string
+	var modelfilePath string
 
 	cmd := &cobra.Command{
 		Use:   "create <model>",
 		Short: "Create a model from a Modelfile",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			// Read modelfile content if provided.
-			// For now we forward the request directly; Modelfile parsing is
-			// handled server-side by Ollama Cloud.
-			req := api.CreateRequest{Model: args[0]}
-			if modelfile != "" {
-				data, err := os.ReadFile(modelfile)
+			var req *api.CreateRequest
+
+			if modelfilePath != "" {
+				f, err := os.Open(modelfilePath)
 				if err != nil {
-					return fmt.Errorf("reading modelfile: %w", err)
+					return fmt.Errorf("opening modelfile: %w", err)
 				}
-				// The "from" field is parsed out of the Modelfile by the cloud.
-				// We pass the raw content via the system field for now.
-				_ = data // full Modelfile parsing is a future enhancement
+				defer f.Close()
+
+				parsedReq, err := modelfile.Parse(f)
+				if err != nil {
+					return fmt.Errorf("parsing modelfile: %w", err)
+				}
+				req = parsedReq
+			} else {
+				req = &api.CreateRequest{}
 			}
+
+			req.Model = args[0]
+			stream := true
+			req.Stream = &stream
+
 			return streamStatusCmd("POST", "/api/create", req,
 				fmt.Sprintf("Creating %s", args[0]),
 			)
 		},
 	}
 
-	cmd.Flags().StringVarP(&modelfile, "file", "f", "Modelfile", "Path to the Modelfile")
+	cmd.Flags().StringVarP(&modelfilePath, "file", "f", "Modelfile", "Path to the Modelfile")
 	return cmd
 }
 

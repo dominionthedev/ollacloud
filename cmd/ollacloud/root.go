@@ -41,6 +41,7 @@ func Execute() error {
 func init() {
 	rootCmd.AddCommand(
 		serveCmd(),
+		launchCmd(),
 		runCmd(),
 		pullCmd(),
 		pushCmd(),
@@ -51,7 +52,10 @@ func init() {
 		cpCmd(),
 		createCmd(),
 		stopCmd(),
+		stopServerCmd(),
 		authCmd(),
+		signinCmd(),
+		signoutCmd(),
 		configCmd(),
 		versionCmd(),
 	)

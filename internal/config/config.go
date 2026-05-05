@@ -157,6 +157,26 @@ func Dir() (string, error) {
 	return dir, nil
 }
 
+// DataDir returns the data directory, creating it if needed.
+// This is used for session history, logs, and PID files.
+func DataDir() (string, error) {
+	// Follow XDG_DATA_HOME if set, else ~/.local/share
+	base := os.Getenv("XDG_DATA_HOME")
+	if base == "" {
+		home, err := os.UserHomeDir()
+		if err != nil {
+			return "", fmt.Errorf("config: cannot find user home dir: %w", err)
+		}
+		base = filepath.Join(home, ".local", "share")
+	}
+
+	dir := filepath.Join(base, dirName)
+	if err := os.MkdirAll(dir, 0o700); err != nil {
+		return "", fmt.Errorf("config: cannot create data dir: %w", err)
+	}
+	return dir, nil
+}
+
 // Path returns the full path to the config file.
 func Path() (string, error) {
 	dir, err := Dir()
